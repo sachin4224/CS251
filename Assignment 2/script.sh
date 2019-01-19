@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /home/sachin/Desktop
+path=$( pwd )
 touch x.txt
 chmod +x x.txt
 
@@ -24,12 +24,12 @@ sed '1d' x.txt > p.txt
 
 cd /bin
 
-ls -l | tr -s " " | cut -d " " -f 1,2,9 | sed '1d' > /home/sachin/Desktop/temp.txt
+ls -l | tr -s " " | cut -d " " -f 1,2,9 | sed '1d' > "$path/temp.txt"
 
 cd /usr/bin
-ls -l | tr -s " " | cut -d " " -f 1,2,9 | sed '1d' >> /home/sachin/Desktop/temp.txt
+ls -l | tr -s " " | cut -d " " -f 1,2,9 | sed '1d' >> "$path/temp.txt"
 
-cd /home/sachin/Desktop
+cd $path
 
 
 join -1 2 -2 3 <(sort -k 2 p.txt) <(sort -k 3 temp.txt) > inter.txt
