@@ -1,0 +1,4 @@
+strlib.a    Read,Execute   /home/sachin/Desktop/abc
+runme  Write,Execute /home/sachin/Desktop/xyz
+string.h None /home/sachin/Desktop/xyz
+book.pdf Read,Write,Execute  /home/sachin/Desktop/xyz/qr

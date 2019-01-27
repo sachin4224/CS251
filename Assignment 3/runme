@@ -1,0 +1,73 @@
+#!/bin/bash
+
+
+while IFS=" " read -r a || [ -n "$a" ];do
+	echo $a
+	temp=$( echo $a | tr -s " " )
+	file=$( echo $a | cut -d " " -f 1 )
+	perm=$( echo $a | cut -d " " -f 2 )
+	path=$( echo $a | cut -d " " -f 3 )
+
+	rperm=$( echo $perm | cut -d "," -f1 )
+	wperm=$( echo $perm | cut -d "," -f2 )
+	xperm=$( echo $perm | cut -d "," -f3)
+
+	dperm=0
+	echo $rperm
+	echo $wperm
+	echo $xperm
+	if [[ $perm == "None" ]]
+	then
+		dperm=0
+	elif [[ ${#perm} == 4 ]]
+	then
+		dperm=4
+	elif [[ ${#perm} == 5 ]]
+	then
+		dperm=2
+	elif [[ ${#perm} == 7 ]]
+	then
+		dperm=1
+	elif [[ ${#perm} == 10 ]]
+	then
+		dperm=6
+	elif [[ ${#perm} == 12 ]]
+	then
+		dperm=5
+	elif [[ ${#perm} == 13 ]]
+	then
+		dperm=3
+	elif [[ ${#perm} == 18 ]]
+	then
+		dperm=7
+	fi
+
+	echo $dperm
+
+	type=$( echo $file | grep -o "\..*$" )
+	if [[ $type == ".a" ]]
+	then
+		path=$( echo '$path/lib')
+		mkdir -p $path
+		mv $file $path
+		chmod -R 'u+$dperm' '$path/$file'
+
+	elif [[ $type == ".h" ]]
+	then
+		path=$( echo '$path/include')
+		mkdir -p $path
+		mv $file $path
+		chmod -R 'u+$dperm' '$path/$file'
+	elif [[ $type == ".pdf" ]]
+	then
+		path=$( echo '$path/doc')
+		mkdir -p $path
+		mv $file $path
+		chmod -R 'u+$dperm' '$path/$file'
+	else 
+		path=$( echo '$path/bin')
+		mkdir -p $path
+		mv $file $path
+		chmod -R 'u+$dperm' '$path/$file'
+	fi
+done < file.txt
